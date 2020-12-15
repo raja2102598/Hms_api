@@ -8,6 +8,181 @@ var dbconn= require("./db")
 
 app.use(body_parser.json())
 
+//Appointment
+app.post("/appointment",(req,res)=>{
+  var user=req.body
+  dbconn.addAppoint(user,(err,result)=>{
+      if(err){
+          console.log(err)
+      }
+      else{
+          console.log(result);
+          res.send("Data Inserted")
+      }        
+  })
+})
+
+app.get("/appointment",(req,res)=>{
+  dbconn.getAppoints((err,result)=>{
+      if(err){
+          console.log(err)
+      }
+      else{
+          res.send(result)
+      }
+  })
+})
+
+app.put("/appointment",(req,res)=>{
+  var userInput = req.body
+
+  dbconn.updateAppoint(userInput, function (e, result) {
+  if (e) {
+    console.log(e)
+  } else if (result) {
+    res.send("1 Row Updated Successfully")
+  }
+})
+})
+
+app.delete("/appointment", (req, res) => {
+  var appointment_id = req.body
+
+  dbconn.deleteAppointment(appointment_id, function (e, result) {
+    if (e) {
+      console.log(e)
+    } else if (result) {
+      res.send("Data Successfully Deleted")
+    }
+  })
+})
+
+//Feedback
+app.post("/feedback",(req,res)=>{
+  var user=req.body
+  dbconn.addFeedback(user,(err,result)=>{
+      if(err){
+          console.log(err)
+      }
+      else{
+          console.log(result);
+          res.send("Data Inserted")
+      }        
+  })
+})
+
+app.get("/feedback",(req,res)=>{
+  dbconn.getFeedbacks((err,result)=>{
+      if(err){
+          console.log(err)
+      }
+      else{
+          res.send(result)
+      }
+  })
+})
+
+app.delete("/feedback", (req, res) => {
+  var f_id = req.body
+
+  dbconn.deleteFeedback(f_id, function (e, result) {
+    if (e) {
+      console.log(e)
+    } else if (result) {
+      res.send("Data Successfully Deleted")
+    }
+  })
+})
+
+//login
+app.post("/login",(req,res)=>{
+  var user=req.body
+  dbconn.addLogin(user,(err,result)=>{
+      if(err){
+          console.log(err)
+      }
+      else{
+          console.log(result);
+          res.send("Data Inserted")
+      }        
+  })
+})
+
+
+app.put("/login",(req,res)=>{
+  var userInput = req.body
+
+  dbconn.updateLogin(userInput, function (e, result) {
+  if (e) {
+    console.log(e)
+  } else if (result) {
+    res.send("1 Row Updated Successfully")
+  }
+})
+})
+
+app.delete("/login", (req, res) => {
+  var u_id = req.body
+
+  dbconn.deleteLogin(u_id, function (e, result) {
+    if (e) {
+      console.log(e)
+    } else if (result) {
+      res.send("Data Successfully Deleted")
+    }
+  })
+})
+
+//medical stocks
+app.post("/stocks",(req,res)=>{
+  var stock=req.body
+  dbconn.addMedStock(stock,(err,result)=>{
+      if(err){
+          console.log(err)
+      }
+      else{
+          console.log(result);
+          res.send("Data Inserted")
+      }        
+  })
+})
+
+app.get("/stock",(req,res)=>{
+  dbconn.getMedStocks((err,result)=>{
+      if(err){
+          console.log(err)
+      }
+      else{
+          res.send(result)
+      }
+  })
+})
+
+app.put("/stock",(req,res)=>{
+  var userInput = req.body
+
+  dbconn.updateStock(userInput, function (e, result) {
+  if (e) {
+    console.log(e)
+  } else if (result) {
+    res.send("1 Row Updated Successfully")
+  }
+})
+})
+
+app.delete("/stock", (req, res) => {
+  var med_id = req.body
+
+  dbconn.deleteMedStock(med_id, function (e, result) {
+    if (e) {
+      console.log(e)
+    } else if (result) {
+      res.send("Data Successfully Deleted")
+    }
+  })
+})
+
+
 //Patient
 app.post("/patient",(req,res)=>{
     var user=req.body
