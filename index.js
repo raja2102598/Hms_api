@@ -106,6 +106,103 @@ app.delete("/phbill", (req, res) => {
 })
 
 
+//register user
+app.post("/register",(req,res)=>{
+  var user=req.body
+  dbconn.registerUser(user,(err,result)=>{
+      if(err){
+          console.log(err)
+      }
+      else{
+          console.log(result);
+          res.send("Data Inserted")
+      }        
+  })
+})
+
+app.get("/register", (req, res) => {
+dbconn.getUsers((err, result) => {
+  if (err) {
+    console.log(err)
+  } else {
+    res.send(result)
+  }
+})
+})
+
+app.put("/register", (req, res) => {
+var userInput = req.body
+
+dbconn.updateUser(userInput, function (e, result) {
+    if (e) {
+      console.log(e)
+    } else if (result) {
+      res.send("1 Row Updated Successfully")
+    }
+  })
+})
+
+app.delete("/register", (req, res) => {
+var p_id = req.body
+
+dbconn.deleteUser(p_id, function (e, result) {
+  if (e) {
+    console.log(e)
+  } else if (result) {
+    res.send("Data Successfully Deleted")
+  }
+})
+})
+
+//Staffs
+app.post("/staff",(req,res)=>{
+  var staff=req.body
+  dbconn.addStaff(staff,(err,result)=>{
+      if(err){
+          console.log(err)
+      }
+      else{
+          console.log(result);
+          res.send("Data Inserted")
+      }        
+  })
+})
+
+app.get("/staff", (req, res) => {
+dbconn.getStaffs((err, result) => {
+  if (err) {
+    console.log(err)
+  } else {
+    res.send(result)
+  }
+})
+})
+
+app.put("/staff", (req, res) => {
+var userInput = req.body
+
+dbconn.updateStaff(userInput, function (e, result) {
+    if (e) {
+      console.log(e)
+    } else if (result) {
+      res.send("1 Row Updated Successfully")
+    }
+  })
+})
+
+app.delete("/staff", (req, res) => {
+var s_id = req.body
+
+dbconn.deleteStaff(s_id, function (e, result) {
+  if (e) {
+    console.log(e)
+  } else if (result) {
+    res.send("Data Successfully Deleted")
+  }
+})
+})
+
+
 app.listen(5000,()=>{
     console.log("Server Started");
 })

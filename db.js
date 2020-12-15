@@ -148,6 +148,138 @@ function deletePhBill(inpBill, callback) {
   })
 }
 
+//Register User
+
+function registerUser(input, callback) {
+  conn.query("insert into register_user SET ?", input, (err, results) => {
+    if (err) {
+      console.log(err)
+    } else if (results) {
+      callback(null, results)
+    } else {
+      conn.end()
+    }
+  })
+}
+
+function getUsers(callback) {
+  var users = []
+  conn.query("select * from register_user", (err, results) => {
+    if (err) {
+      console.log(err)
+    } else if (results) {
+      results.forEach((user) => {
+        users.push(user)
+      })
+      callback(null, users)
+    } else {
+      conn.end()
+    }
+  })
+}
+
+function updateUser(inUserData, callback) {
+  var user = {
+    p_id: inUserData.p_id,
+  }
+  conn.query(
+    "update register_user SET ? where ?",
+    [inUserData, user],
+    function (e, results) {
+      if (e) {
+        console.log(e)
+      } else if (results) {
+        callback(null, results)
+      } else {
+        conn.end()
+      }
+    }
+  )
+}
+
+function deleteUser(inp, callback) {
+  var user_id = {
+    p_id: inp.p_id,
+  }
+  conn.query(
+    "delete from register_user where ?",
+    user_id,
+    function (e, results) {
+      if (e) {
+        console.log(e)
+      } else if (results) {
+        callback(null, results)
+      } else {
+        conn.end()
+      }
+    }
+  )
+}
+
+//Staffs
+
+function addStaff(input, callback) {
+  conn.query("insert into staffs SET ?", input, (err, results) => {
+    if (err) {
+      console.log(err)
+    } else if (results) {
+      callback(null, results)
+    } else {
+      conn.end()
+    }
+  })
+}
+
+function getStaffs(callback) {
+  var staffs = []
+  conn.query("select * from staffs", (err, results) => {
+    if (err) {
+      console.log(err)
+    } else if (results) {
+      results.forEach((staff) => {
+        staffs.push(staff)
+      })
+      callback(null, staffs)
+    } else {
+      conn.end()
+    }
+  })
+}
+
+function updateStaff(inStaffData, callback) {
+  var staff = {
+    s_id: inStaffData.s_id,
+  }
+  conn.query(
+    "update staffs SET ? where ?",
+    [inStaffData, staff],
+    function (e, results) {
+      if (e) {
+        console.log(e)
+      } else if (results) {
+        callback(null, results)
+      } else {
+        conn.end()
+      }
+    }
+  )
+}
+
+function deleteStaff(inp, callback) {
+  var staff_id = {
+    s_id: inp.s_id,
+  }
+  conn.query("delete from staffs where ?", staff_id, function (e, results) {
+    if (e) {
+      console.log(e)
+    } else if (results) {
+      callback(null, results)
+    } else {
+      conn.end()
+    }
+  })
+}
+
 
 module.exports = {
   addpatient: addpatient,
@@ -158,4 +290,12 @@ module.exports = {
   getPhBills: getPhBills,
   updatePhBill: updatePhBill,
   deletePhBill: deletePhBill,
+  registerUser: registerUser,
+  getUsers: getUsers,
+  updateUser: updateUser,
+  deleteUser: deleteUser,
+  addStaff: addStaff,
+  getStaffs: getStaffs,
+  updateStaff: updateStaff,
+  deleteStaff: deleteStaff,
 }
