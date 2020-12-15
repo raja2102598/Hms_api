@@ -59,8 +59,8 @@ app.delete("/patient", (req, res) => {
 
 //Pharmacy billing
 app.post("/phbill",(req,res)=>{
-    var user=req.body
-    dbconn.addphbill(user,(err,result)=>{
+    var bill=req.body
+    dbconn.addPhBill(bill,(err,result)=>{
         if(err){
             console.log(err)
         }
@@ -71,39 +71,38 @@ app.post("/phbill",(req,res)=>{
     })
 })
 
-app.get("/patient",(req,res)=>{
-    dbconn.getPatients((err,result)=>{
-        if(err){
-            console.log(err)
-        }
-        else{
-            res.send(result)
-        }
-    })
-})
-
-app.put("/patient",(req,res)=>{
-    var userInput = req.body
-
-    dbconn.updatePatient(userInput, function (e, result) {
-    if (e) {
-      console.log(e)
-    } else if (result) {
-      res.send("1 Row Updated Successfully")
+app.get("/phbill", (req, res) => {
+  dbconn.getPhBills((err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      res.send(result)
     }
   })
 })
 
-app.delete("/patient", (req, res) => {
-    var patient_id = req.body
-  
-    dbconn.deletePatient(patient_id, function (e, result) {
+app.put("/phbill", (req, res) => {
+  var userInput = req.body
+
+  dbconn.updatePhBill(userInput, function (e, result) {
       if (e) {
         console.log(e)
       } else if (result) {
-        res.send("Data Successfully Deleted")
+        res.send("1 Row Updated Successfully")
       }
     })
+})
+
+app.delete("/phbill", (req, res) => {
+  var b_id = req.body
+
+  dbconn.deletePhBill(b_id, function (e, result) {
+    if (e) {
+      console.log(e)
+    } else if (result) {
+      res.send("Data Successfully Deleted")
+    }
+  })
 })
 
 
