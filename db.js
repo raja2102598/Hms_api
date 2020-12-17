@@ -1,21 +1,4 @@
-var mysql=require("mysql")
-
-var conn = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "hospital_management",
-})
-
-conn.connect((err,dbconn)=>{
-    if(err){
-        console.log(err);
-    }
-    else if(dbconn){
-        console.log("Database Connected Sucessfully");
-    }
-})
-
+var conn = require("./app/db/dbconn")
 //appoint_list
 
 function addAppoint(input,callback){
