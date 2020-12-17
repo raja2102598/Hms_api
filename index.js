@@ -1,381 +1,91 @@
-var express =require("express")
+var express = require("express")
+var body_parser = require("body-parser")
+var app = express()
 
-var body_parser=require("body-parser")
 
-var app= express()
 
-var dbconn= require("./db")
+var appoint = require("./app/src/Models/appoint/functionAppoint")
+var feed = require("./app/src/Models/feedback/functionFeedback")
+var login = require("./app/src/Models/login/functionlogin")
+var stock = require("./app/src/Models/medStocks/functionstocks")
+var patient = require("./app/src/Models/patient/functionpatient")
+var bills = require("./app/src/Models/bills/functionbills")
+var reg = require("./app/src/Models/register/functionregister")
+var staff = require("./app/src/Models/staff/functionstaff")
+
 
 app.use(body_parser.json())
 
 //Appointment
-app.post("/appointment",(req,res)=>{
-  var user=req.body
-  dbconn.addAppoint(user,(err,result)=>{
-      if(err){
-          console.log(err)
-      }
-      else{
-          console.log(result);
-          res.send("Data Inserted")
-      }        
-  })
-})
+app.post("/appointment", appoint.addApp)
 
-app.get("/appointment",(req,res)=>{
-  dbconn.getAppoints((err,result)=>{
-      if(err){
-          console.log(err)
-      }
-      else{
-          res.send(result)
-      }
-  })
-})
+app.get("/appointment", appoint.getApp)
 
-app.put("/appointment",(req,res)=>{
-  var userInput = req.body
+app.put("/appointment", appoint.updateApp)
 
-  dbconn.updateAppoint(userInput, function (e, result) {
-  if (e) {
-    console.log(e)
-  } else if (result) {
-    res.send("1 Row Updated Successfully")
-  }
-})
-})
-
-app.delete("/appointment", (req, res) => {
-  var appointment_id = req.body
-
-  dbconn.deleteAppointment(appointment_id, function (e, result) {
-    if (e) {
-      console.log(e)
-    } else if (result) {
-      res.send("Data Successfully Deleted")
-    }
-  })
-})
+app.delete("/appointment", appoint.deleteApp)
 
 //Feedback
-app.post("/feedback",(req,res)=>{
-  var user=req.body
-  dbconn.addFeedback(user,(err,result)=>{
-      if(err){
-          console.log(err)
-      }
-      else{
-          console.log(result);
-          res.send("Data Inserted")
-      }        
-  })
-})
+app.post("/feedback", feed.addFeed)
 
-app.get("/feedback",(req,res)=>{
-  dbconn.getFeedbacks((err,result)=>{
-      if(err){
-          console.log(err)
-      }
-      else{
-          res.send(result)
-      }
-  })
-})
+app.get("/feedback", feed.getFeed)
 
-app.delete("/feedback", (req, res) => {
-  var f_id = req.body
-
-  dbconn.deleteFeedback(f_id, function (e, result) {
-    if (e) {
-      console.log(e)
-    } else if (result) {
-      res.send("Data Successfully Deleted")
-    }
-  })
-})
+app.delete("/feedback", feed.deleteFeed)
 
 //login
-app.post("/login",(req,res)=>{
-  var user=req.body
-  dbconn.addLogin(user,(err,result)=>{
-      if(err){
-          console.log(err)
-      }
-      else{
-          console.log(result);
-          res.send("Data Inserted")
-      }        
-  })
-})
+app.post("/login", login.addLoginData)
 
 
-app.put("/login",(req,res)=>{
-  var userInput = req.body
+app.put("/login", login.updateLoginData)
 
-  dbconn.updateLogin(userInput, function (e, result) {
-  if (e) {
-    console.log(e)
-  } else if (result) {
-    res.send("1 Row Updated Successfully")
-  }
-})
-})
-
-app.delete("/login", (req, res) => {
-  var u_id = req.body
-
-  dbconn.deleteLogin(u_id, function (e, result) {
-    if (e) {
-      console.log(e)
-    } else if (result) {
-      res.send("Data Successfully Deleted")
-    }
-  })
-})
+app.delete("/login", login.deleteLoginData)
 
 //medical stocks
-app.post("/stocks",(req,res)=>{
-  var stock=req.body
-  dbconn.addMedStock(stock,(err,result)=>{
-      if(err){
-          console.log(err)
-      }
-      else{
-          console.log(result);
-          res.send("Data Inserted")
-      }        
-  })
-})
+app.post("/stock", stock.addStock)
 
-app.get("/stock",(req,res)=>{
-  dbconn.getMedStocks((err,result)=>{
-      if(err){
-          console.log(err)
-      }
-      else{
-          res.send(result)
-      }
-  })
-})
+app.get("/stock", stock.getStocks)
 
-app.put("/stock",(req,res)=>{
-  var userInput = req.body
+app.put("/stock", stock.updateStock)
 
-  dbconn.updateStock(userInput, function (e, result) {
-  if (e) {
-    console.log(e)
-  } else if (result) {
-    res.send("1 Row Updated Successfully")
-  }
-})
-})
-
-app.delete("/stock", (req, res) => {
-  var med_id = req.body
-
-  dbconn.deleteMedStock(med_id, function (e, result) {
-    if (e) {
-      console.log(e)
-    } else if (result) {
-      res.send("Data Successfully Deleted")
-    }
-  })
-})
+app.delete("/stock", stock.deleteStock)
 
 
 //Patient
-app.post("/patient",(req,res)=>{
-    var user=req.body
-    dbconn.addpatient(user,(err,result)=>{
-        if(err){
-            console.log(err)
-        }
-        else{
-            console.log(result);
-            res.send("Data Inserted")
-        }        
-    })
-})
+app.post("/patient", patient.addPatientData)
 
-app.get("/patient",(req,res)=>{
-    dbconn.getPatients((err,result)=>{
-        if(err){
-            console.log(err)
-        }
-        else{
-            res.send(result)
-        }
-    })
-})
+app.get("/patient", patient.getPatientsData)
 
-app.put("/patient",(req,res)=>{
-    var userInput = req.body
+app.put("/patient", patient.updatePatientData)
 
-    dbconn.updatePatient(userInput, function (e, result) {
-    if (e) {
-      console.log(e)
-    } else if (result) {
-      res.send("1 Row Updated Successfully")
-    }
-  })
-})
-
-app.delete("/patient", (req, res) => {
-    var patient_id = req.body
-  
-    dbconn.deletePatient(patient_id, function (e, result) {
-      if (e) {
-        console.log(e)
-      } else if (result) {
-        res.send("Data Successfully Deleted")
-      }
-    })
-})
+app.delete("/patient", patient.deletePatientData)
 
 //Pharmacy billing
-app.post("/phbill",(req,res)=>{
-    var bill=req.body
-    dbconn.addPhBill(bill,(err,result)=>{
-        if(err){
-            console.log(err)
-        }
-        else{
-            console.log(result);
-            res.send("Data Inserted")
-        }        
-    })
-})
+app.post("/phbill", bills.addbill)
 
-app.get("/phbill", (req, res) => {
-  dbconn.getPhBills((err, result) => {
-    if (err) {
-      console.log(err)
-    } else {
-      res.send(result)
-    }
-  })
-})
+app.get("/phbill", bills.getbills)
 
-app.put("/phbill", (req, res) => {
-  var userInput = req.body
+app.put("/phbill", bills.updatebill)
 
-  dbconn.updatePhBill(userInput, function (e, result) {
-      if (e) {
-        console.log(e)
-      } else if (result) {
-        res.send("1 Row Updated Successfully")
-      }
-    })
-})
-
-app.delete("/phbill", (req, res) => {
-  var b_id = req.body
-
-  dbconn.deletePhBill(b_id, function (e, result) {
-    if (e) {
-      console.log(e)
-    } else if (result) {
-      res.send("Data Successfully Deleted")
-    }
-  })
-})
+app.delete("/phbill", bills.deletebill)
 
 
 //register user
-app.post("/register",(req,res)=>{
-  var user=req.body
-  dbconn.registerUser(user,(err,result)=>{
-      if(err){
-          console.log(err)
-      }
-      else{
-          console.log(result);
-          res.send("Data Inserted")
-      }        
-  })
-})
+app.post("/register", reg.reguser)
 
-app.get("/register", (req, res) => {
-dbconn.getUsers((err, result) => {
-  if (err) {
-    console.log(err)
-  } else {
-    res.send(result)
-  }
-})
-})
+app.get("/register", reg.getusersdata)
 
-app.put("/register", (req, res) => {
-var userInput = req.body
+app.put("/register", reg.updateuserdata)
 
-dbconn.updateUser(userInput, function (e, result) {
-    if (e) {
-      console.log(e)
-    } else if (result) {
-      res.send("1 Row Updated Successfully")
-    }
-  })
-})
-
-app.delete("/register", (req, res) => {
-var p_id = req.body
-
-dbconn.deleteUser(p_id, function (e, result) {
-  if (e) {
-    console.log(e)
-  } else if (result) {
-    res.send("Data Successfully Deleted")
-  }
-})
-})
+app.delete("/register", reg.deleteuserdata)
 
 //Staffs
-app.post("/staff",(req,res)=>{
-  var staff=req.body
-  dbconn.addStaff(staff,(err,result)=>{
-      if(err){
-          console.log(err)
-      }
-      else{
-          console.log(result);
-          res.send("Data Inserted")
-      }        
-  })
-})
+app.post("/staff", staff.addstaffdata)
 
-app.get("/staff", (req, res) => {
-dbconn.getStaffs((err, result) => {
-  if (err) {
-    console.log(err)
-  } else {
-    res.send(result)
-  }
-})
-})
+app.get("/staff", staff.getstaffdata)
 
-app.put("/staff", (req, res) => {
-var userInput = req.body
+app.put("/staff", staff.updatestaffdata)
 
-dbconn.updateStaff(userInput, function (e, result) {
-    if (e) {
-      console.log(e)
-    } else if (result) {
-      res.send("1 Row Updated Successfully")
-    }
-  })
-})
-
-app.delete("/staff", (req, res) => {
-var s_id = req.body
-
-dbconn.deleteStaff(s_id, function (e, result) {
-  if (e) {
-    console.log(e)
-  } else if (result) {
-    res.send("Data Successfully Deleted")
-  }
-})
-})
+app.delete("/staff", staff.deletestaffdata)
 
 
 app.listen(5000,()=>{
