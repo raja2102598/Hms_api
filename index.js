@@ -35,7 +35,6 @@ app.delete("/feedback", feed.deleteFeed)
 //login
 app.post("/login", login.addLoginData)
 
-
 app.put("/login", login.updateLoginData)
 
 app.delete("/login", login.deleteLoginData)
@@ -48,7 +47,6 @@ app.get("/stock", stock.getStocks)
 app.put("/stock", stock.updateStock)
 
 app.delete("/stock", stock.deleteStock)
-
 
 //Patient
 app.post("/patient", patient.addPatientData)
@@ -89,5 +87,5 @@ app.delete("/staff", staff.deletestaffdata)
 
 
 app.listen(5000,()=>{
-    console.log("Server Started");
+  console.log("Server Started")
 })
