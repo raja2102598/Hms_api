@@ -29,7 +29,7 @@ app.delete("/appointment", appoint.deleteApp)
 
 app.get("/appointment/:id/all", appoint.getParticularApp)
 
-app.put("/appointment/cancel/:a_id/:status", appoint.cancelParticularApp)
+app.put("/appointment/status/:status/:a_id", appoint.cancelParticularApp)   //localhost:5000/appointment/status/(true)/(14)
 
 //Feedback
 app.post("/feedback", feed.addFeed)

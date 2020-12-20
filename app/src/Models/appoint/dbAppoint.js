@@ -130,10 +130,11 @@ function getAppointsForEach(inPatient,callback) {
 //cancel a appointment for a particular patient with appoint id
 
 function cancelAppoint(inUserData, callback) {
-  modified_date=moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+  modified_date = moment(Date.now()).format("YYYY-MM-DD HH:mm:ss")
+
   conn.query(
     "update appoint_list SET a_status=?,modified_on=? where appoint_id=?",
-    [inUserData.status,modified_date,inUserData.id],
+    [inUserData.status, modified_date, inUserData.id],
     function (e, results) {
       if (e) {
         console.log(e)

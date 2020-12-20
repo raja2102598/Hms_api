@@ -63,9 +63,10 @@ function getParticularApp(req, res) {
 //cancel a appointment for a particular patient with appoint id
 
 function cancelParticularApp(req, res) {
-  var id = req.params.a_id
-  var status = req.params.status
-  dbconn.cancelAppoint([id, status], (err, result) => {
+  data = []
+  data.id = req.params.a_id
+  data.status = req.params.status
+  dbconn.cancelAppoint(data, (err, result) => {
     if (err) {
       console.log(err)
     } else {
@@ -73,7 +74,7 @@ function cancelParticularApp(req, res) {
         // console.log(result)
         res.send("Success")
       } else {
-        console.log(result);
+        console.log(result)
         res.send("No Data Found")
       }
     }
