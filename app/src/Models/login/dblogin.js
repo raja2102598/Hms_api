@@ -7,26 +7,15 @@ var algorithm = "aes-192-cbc" //algorithm to use
 var password = "this the the password"
 const key = crypto.scryptSync(password, "salt", 24) //create key
 const iv = crypto.randomBytes(16) // generate different ciphertext everytime
-const cipher = crypto.createCipheriv(algorithm, key, iv)
     
 
-
 function addLogin(input, callback) {
-  var text = input.pwd //text to be encrypted
-  var encrypted = cipher.update(text, "utf8", "hex") + cipher.final("hex") // encrypted text
-  // console.log(encrypted)
-
-  // const decipher = crypto.createDecipheriv(algorithm, key, iv)
-  // var decrypted =
-  //   decipher.update(encrypted, "hex", "utf8") + decipher.final("utf8") //deciphered text
-  // console.log(decrypted)
-  // // try {
-  //   assert.strictEqual(decrypted, text)
-  // } catch (err) {
-  //   console.log(err)
-  // }
-  input.pwd = encrypted
-  conn.query("insert into login SET ?", input, (err, results) => {
+  const cipher = crypto.createCipheriv(algorithm, key, iv)
+  var viewlog = dblogdata(input)
+  var text = viewlog.pwd //text to be encrypted
+  var encrypted = cipher.update(text, "utf8", "hex") + cipher.final("hex")
+  viewlog.pwd = encrypted
+  conn.query("insert into login SET ?", viewlog, (err, results) => {
     if (err) {
       console.log(err)
     } else if (results) {
@@ -38,17 +27,20 @@ function addLogin(input, callback) {
 }
 
 function updateLogin(inUserData, callback) {
+  
+const cipher = crypto.createCipheriv(algorithm, key, iv)
+var viewlogin = dblogdata(inUserData)
   var user_id = {
-    uid: inUserData.uid,
+    uid: inUserData.Userid,
   }
-  if (inUserData.pwd != "") {
-    var text = inUserData.pwd //text to be encrypted
+  if (viewlogin.pwd != "") {
+    var text = viewlogin.pwd //text to be encrypted
     var encrypted = cipher.update(text, "utf8", "hex") + cipher.final("hex") // encrypted text
-    inUserData.pwd = encrypted
+    viewlogin.pwd = encrypted
   }
   conn.query(
     "update login SET ? where ?",
-    [inUserData, user_id],
+    [viewlogin, user_id],
     function (e, results) {
       if (e) {
         console.log(e)
@@ -63,7 +55,7 @@ function updateLogin(inUserData, callback) {
 
 function deleteLogin(inpUser, callback) {
   var user_id = {
-    uid: inpUser.uid,
+    u_id: inpUser.u_id,
   }
   conn.query("delete from login where ?", user_id, function (e, results) {
     if (e) {
@@ -74,6 +66,15 @@ function deleteLogin(inpUser, callback) {
       conn.end()
     }
   })
+}
+
+function dblogdata(dblog) {
+  var uilog = {}
+  uilog.uid = dblog.Userid
+  uilog.email = dblog.Email
+  uilog.pwd = dblog.Password
+
+  return uilog
 }
 
 module.exports = {

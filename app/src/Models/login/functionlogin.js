@@ -31,9 +31,7 @@ function deleteLoginData(req, res) {
     if (e) {
       console.log(e)
     } else if (result) {
-      res.send(
-        result.affectedRows > 0 ? "1 Row Deleted Successfully" : "No user found"
-      )
+      res.send("Data Successfully Deleted")
     }
   })
 }

@@ -1,7 +1,8 @@
 var conn = require("../../../../app/db/dbconn")
 
 function addMedStock(input, callback) {
-  conn.query("insert into m_stocks SET ?", input, (err, results) => {
+  var viewstocks = dbstockdata(input);
+  conn.query("insert into m_stocks SET ?", viewstocks, (err, results) => {
     if (err) {
       console.log(err)
     } else if (results) {
@@ -19,7 +20,8 @@ function getMedStocks(callback) {
       console.log(err)
     } else if (results) {
       results.forEach((stock) => {
-        stocks.push(stock)
+        var medicalstocks = uistockdata(stock);
+        stocks.push(medicalstocks)
       })
       callback(null, stocks)
     } else {
@@ -29,12 +31,13 @@ function getMedStocks(callback) {
 }
 
 function updateMedStock(inpData, callback) {
+  var upmedistock = uistockdata(inpData); 
   var med_stock_id = {
     med_id: inpData.med_id,
   }
   conn.query(
     "update m_stock SET ? where ?",
-    [inpData, med_stock_id],
+    [upmedistock, med_stock_id],
     function (e, results) {
       if (e) {
         console.log(e)
@@ -64,6 +67,28 @@ function deleteMedStock(inpData, callback) {
       }
     }
   )
+}
+
+function dbstockdata(uistock){
+  var dbstock = {}
+  dbstock.med_id = uistock.id
+  dbstock.med_name = uistock.medicinename
+  dbstock.med_description = uistock.description
+  dbstock.med_quantity = uistock.quantity
+  dbstock.category_id = uistock.category
+  dbstock.priceofeach = uistock.price
+
+  return dbstock
+}
+
+function uistockdata(stockdata){
+  var stockui = {}
+  stockui.medicine = stockdata.med_name
+  stockui.description = stockdata.med_description
+  stockui.quantity = stockdata.med_quantity
+  stockui.price = stockdata.priceofeach
+
+  return stockui
 }
 
 module.exports = {

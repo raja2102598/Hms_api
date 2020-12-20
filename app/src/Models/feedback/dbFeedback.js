@@ -1,7 +1,8 @@
 var conn = require("../../../../app/db/dbconn")
 
 function addFeedback(input, callback) {
-  conn.query("insert into feedback SET ?", input, (err, results) => {
+  var viewfeeddata = dbfeeddata(input);
+  conn.query("insert into feedback SET ?", viewfeeddata, (err, results) => {
     if (err) {
       console.log(err)
     } else if (results) {
@@ -19,7 +20,8 @@ function getFeedbacks(callback) {
       console.log(err)
     } else if (results) {
       results.forEach((feedback) => {
-        feedbacks.push(feedback)
+        var feed= uifeeddata(feedback)
+        feedbacks.push(feed)
       })
       callback(null, feedbacks)
     } else {
@@ -45,6 +47,27 @@ function deleteFeedback(inpUser, callback) {
       }
     }
   )
+}
+
+
+function dbfeeddata (feedb){
+  var feeui={}
+  feeui.f_id = feedb.id
+  feeui.username = feedb.name
+  feeui.comment = feedb.comment
+  feeui.created_on = feedb.created_date
+  feeui.rating = feedb.ratings
+
+  return feeui
+}
+
+function uifeeddata(uifeed){
+  var dbfeed = {}
+  dbfeed.name = uifeed.username
+  dbfeed.comment = uifeed.comment
+  dbfeed.ratings = uifeed.ratings
+
+  return dbfeed
 }
 
 module.exports = {
