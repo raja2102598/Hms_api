@@ -46,9 +46,23 @@ function deletebill(req, res) {
   })
 }
 
+
+function getBillById(req, res) {
+  var id = req.params.id
+  dbconn.getPhBillById(id, (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      result.length > 0 ? res.send(result) : res.send("No Data Found")
+    }
+  })
+}
+
+
 module.exports = {
   addbill,
   deletebill,
   getbills,
   updatebill,
+  getBillById,
 }

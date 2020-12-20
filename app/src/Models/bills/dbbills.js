@@ -67,11 +67,30 @@ function deletePhBill(inpBill, callback) {
 }
 
 
-
+function getPhBillById(id, callback) {
+  var bills = []
+  conn.query(
+    "select * from ph_billing where patient_id=?",
+    id,
+    (err, results) => {
+      if (err) {
+        console.log(err)
+      } else if (results) {
+        results.forEach((bill) => {
+          bills.push(bill)
+        })
+        callback(null, bills)
+      } else {
+        conn.end()
+      }
+    }
+  )
+}
 
 module.exports = {
   addPhBill,
   updatePhBill,
   getPhBills,
   deletePhBill,
+  getPhBillById,
 }

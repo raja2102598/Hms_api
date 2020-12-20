@@ -43,7 +43,7 @@ app.put("/phbill", bills.updatebill)
 
 app.delete("/phbill", bills.deletebill)
 
-
+app.get("/phbill/:id", bills.getBillById)
 
 //Feedback
 app.post("/feedback", feed.addFeed)
