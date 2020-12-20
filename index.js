@@ -33,6 +33,18 @@ app.get("/appointment/d/:id/all", appoint.getParticularAppDoc)   //get all appoi
 
 app.put("/appointment/status/:status/:a_id", appoint.cancelParticularApp)   //localhost:5000/appointment/status/(true)/(14)
 
+
+//Pharmacy billing
+app.post("/phbill", bills.addbill)
+
+app.get("/phbill", bills.getbills)
+
+app.put("/phbill", bills.updatebill)
+
+app.delete("/phbill", bills.deletebill)
+
+
+
 //Feedback
 app.post("/feedback", feed.addFeed)
 
@@ -65,14 +77,6 @@ app.put("/patient", patient.updatePatientData)
 
 app.delete("/patient", patient.deletePatientData)
 
-//Pharmacy billing
-app.post("/phbill", bills.addbill)
-
-app.get("/phbill", bills.getbills)
-
-app.put("/phbill", bills.updatebill)
-
-app.delete("/phbill", bills.deletebill)
 
 
 //register user

@@ -1,6 +1,9 @@
 var conn = require("../../../../app/db/dbconn")
 
+var moment = require("moment")
+
 function addPhBill(input, callback) {
+  input.date = moment(Date.now()).format("YYYY-MM-DD HH:mm:ss")
   conn.query("insert into ph_billing SET ?", input, (err, results) => {
     if (err) {
       console.log(err)
@@ -32,6 +35,7 @@ function updatePhBill(inUserData, callback) {
   var user = {
     b_id: inUserData.b_id,
   }
+  inUserData.date = moment(Date.now()).format("YYYY-MM-DD HH:mm:ss")
   conn.query(
     "update ph_billing SET ? where ?",
     [inUserData, user],
@@ -61,6 +65,9 @@ function deletePhBill(inpBill, callback) {
     }
   })
 }
+
+
+
 
 module.exports = {
   addPhBill,
