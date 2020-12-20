@@ -60,6 +60,24 @@ function getParticularApp(req, res) {
     }
   })
 }
+//select all appointments for a particular doctor
+
+function getParticularAppDoc(req, res) {
+  var id = req.params.id
+  dbconn.getAppointsForEachDoc(id, (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      if (result.length > 0) {
+        console.log(result)
+        res.send(result)
+      } else {
+        res.send("No Data Found")
+      }
+    }
+  })
+}
+
 //cancel a appointment for a particular patient with appoint id
 
 function cancelParticularApp(req, res) {
@@ -71,7 +89,7 @@ function cancelParticularApp(req, res) {
       console.log(err)
     } else {
       if (result.affectedRows > 0) {
-        // console.log(result)
+        console.log(result)
         res.send("Success")
       } else {
         console.log(result)
@@ -89,5 +107,6 @@ module.exports = {
   updateApp,
   deleteApp,
   getParticularApp,
+  getParticularAppDoc,
   cancelParticularApp,
 }

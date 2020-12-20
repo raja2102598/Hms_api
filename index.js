@@ -27,7 +27,9 @@ app.put("/appointment", appoint.updateApp)
 app.delete("/appointment", appoint.deleteApp)
 
 
-app.get("/appointment/:id/all", appoint.getParticularApp)
+app.get("/appointment/p/:id/all", appoint.getParticularApp)   //get all appoints for a particular patient
+
+app.get("/appointment/d/:id/all", appoint.getParticularAppDoc)   //get all appoints for a particular doctor
 
 app.put("/appointment/status/:status/:a_id", appoint.cancelParticularApp)   //localhost:5000/appointment/status/(true)/(14)
 

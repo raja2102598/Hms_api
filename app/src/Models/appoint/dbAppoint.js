@@ -127,6 +127,23 @@ function getAppointsForEach(inPatient,callback) {
   })
 }
 
+//select all appointments for a particular patient
+function getAppointsForEachDoc(inDoc,callback) {
+  var appointments = []
+  conn.query("select * from appoint_list where a_doctorid=?",inDoc, (err, results) => {
+    if (err) {
+      console.log(err)
+    } else if (results) {
+      results.forEach((appoint) => {
+        var appoints = viewuidata(appoint)
+        appointments.push(appoints)
+      })
+      callback(null, appointments)
+    } else {
+      conn.end()
+    }
+  })
+}
 //cancel a appointment for a particular patient with appoint id
 
 function cancelAppoint(inUserData, callback) {
@@ -154,5 +171,6 @@ module.exports = {
   deleteAppointment,
   updateAppoint,
   getAppointsForEach,
-  cancelAppoint
+  getAppointsForEachDoc,
+  cancelAppoint,
 }
