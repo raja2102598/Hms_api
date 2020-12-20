@@ -1,16 +1,23 @@
 var conn = require("../../../../app/db/dbconn")
+var moment=require("moment")
+
 
 function addAppoint(input, callback) {
   var viewdata=viewdbdata(input);
-  conn.query("insert into appoint_list SET ?", viewdata, (err, results) => {
-    if (err) {
-      console.log(err)
-    } else if (results) {
-      callback(null, results)
-    } else {
-      conn.end()
+  viewdata.created_on = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+   conn.query(
+    "insert into appoint_list SET ?",
+    viewdata,
+    (err, results) => {
+      if (err) {
+        console.log(err)
+      } else if (results) {
+        callback(null, results)
+      } else {
+        conn.end()
+      }
     }
-  })
+  )
 }
 
 function getAppoints(callback) {
@@ -35,6 +42,7 @@ function updateAppoint(inUserData, callback) {
   var a_id = {
     appoint_id: inUserData.appoint_id,
   }
+  viewdata.modified_date=moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
   conn.query(
     "update appoint_list SET ? where ?",
     [viewdata, a_id],
@@ -100,9 +108,50 @@ function viewuidata(uiresult){
  return dbdata
 }
 
+
+//select all appointments for a particular patient
+function getAppointsForEach(inPatient,callback) {
+  var appointments = []
+  conn.query("select * from appoint_list where patient_id=?",inPatient, (err, results) => {
+    if (err) {
+      console.log(err)
+    } else if (results) {
+      results.forEach((appoint) => {
+        var appoints = viewuidata(appoint)
+        appointments.push(appoints)
+      })
+      callback(null, appointments)
+    } else {
+      conn.end()
+    }
+  })
+}
+
+//cancel a appointment for a particular patient with appoint id
+
+function cancelAppoint(inUserData, callback) {
+  modified_date=moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+  conn.query(
+    "update appoint_list SET a_status=?,modified_on=? where appoint_id=?",
+    [inUserData.status,modified_date,inUserData.id],
+    function (e, results) {
+      if (e) {
+        console.log(e)
+      } else if (results) {
+        callback(null, results)
+      } else {
+        conn.end()
+      }
+    }
+  )
+}
+
+
 module.exports = {
   addAppoint,
   getAppoints,
   deleteAppointment,
   updateAppoint,
+  getAppointsForEach,
+  cancelAppoint
 }

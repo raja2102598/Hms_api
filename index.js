@@ -15,6 +15,7 @@ var staff = require("./app/src/Models/staff/functionstaff")
 
 
 app.use(body_parser.json())
+app.use(body_parser.urlencoded({ extended: true }))
 
 //Appointment
 app.post("/appointment", appoint.addApp)
@@ -24,6 +25,11 @@ app.get("/appointment", appoint.getApp)
 app.put("/appointment", appoint.updateApp)
 
 app.delete("/appointment", appoint.deleteApp)
+
+
+app.get("/appointment/:id/all", appoint.getParticularApp)
+
+app.put("/appointment/cancel/:a_id/:status", appoint.cancelParticularApp)
 
 //Feedback
 app.post("/feedback", feed.addFeed)
