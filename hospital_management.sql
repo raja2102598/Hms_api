@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 17, 2020 at 04:48 AM
+-- Generation Time: Dec 21, 2020 at 06:42 AM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.4.11
 
@@ -33,11 +33,18 @@ CREATE TABLE `appoint_list` (
   `a_type` varchar(40) NOT NULL,
   `a_doctorid` int(40) NOT NULL,
   `a_doctorname` varchar(40) NOT NULL,
-  `a_date` timestamp(6) NULL DEFAULT NULL,
+  `a_date` datetime(4) DEFAULT NULL,
   `a_status` varchar(10) NOT NULL DEFAULT 'True',
-  `created_on` timestamp(6) NOT NULL DEFAULT current_timestamp(6),
-  `modified_on` timestamp(6) NULL DEFAULT NULL
+  `created_on` datetime(6) NOT NULL,
+  `modified_on` datetime(5) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Appointment Table';
+
+--
+-- Dumping data for table `appoint_list`
+--
+
+INSERT INTO `appoint_list` (`appoint_id`, `patient_id`, `a_type`, `a_doctorid`, `a_doctorname`, `a_date`, `a_status`, `created_on`, `modified_on`) VALUES
+(14, 3, 'addd', 155, 'dsd', '0000-00-00 00:00:00.0000', 'false', '2020-12-20 11:29:01.000000', '2020-12-20 15:40:07.00000');
 
 -- --------------------------------------------------------
 
@@ -65,6 +72,16 @@ CREATE TABLE `login` (
   `pwd` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+--
+-- Dumping data for table `login`
+--
+
+INSERT INTO `login` (`uid`, `email`, `pwd`) VALUES
+(2, 'raja@gmail.com', 'ad6afa176c03e04f3ccd4a1e2fc3510d'),
+(3, 'raja@gmail.com', 'd85a757bbbfbb921342eff0b781b07c0'),
+(4, 'raja@gmail.com', '12345'),
+(5, 'raja@gmail.com', '7887ed08c9766ace207b0e492b3dbae8');
+
 -- --------------------------------------------------------
 
 --
@@ -79,6 +96,13 @@ CREATE TABLE `m_stocks` (
   `category_id` varchar(30) NOT NULL,
   `priceofeach` int(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Medical Stockes';
+
+--
+-- Dumping data for table `m_stocks`
+--
+
+INSERT INTO `m_stocks` (`med_id`, `med_name`, `med_description`, `med_quantity`, `category_id`, `priceofeach`) VALUES
+(1, 'gag', 'hsh', 1, '2', 23);
 
 -- --------------------------------------------------------
 
@@ -131,8 +155,8 @@ CREATE TABLE `ph_billing` (
 --
 
 INSERT INTO `ph_billing` (`b_id`, `patient_id`, `invoice_no`, `amount`, `date`, `type`, `payment_type`, `pay_status`) VALUES
-(1, 3, 'mann', 110, '0000-00-00 00:00:00.000000', 'medicine', 'Cash', 'True'),
-(2, 3, 'snann', 110, '0000-00-00 00:00:00.000000', 'medicine', 'Cash', 'True');
+(1, 3, '17717', 110, '2020-12-20 15:23:02.253758', 'medicine', 'Cash', 'True'),
+(2, 4, '32344', 110, '2020-12-20 15:23:06.785861', 'medicine', 'Cash', 'True');
 
 -- --------------------------------------------------------
 
@@ -158,7 +182,8 @@ CREATE TABLE `register_user` (
 --
 
 INSERT INTO `register_user` (`p_id`, `name`, `age`, `gender`, `address`, `phone`, `email`, `bloodgroup`, `created_on`, `modified_on`) VALUES
-(1, 'test', 20, 'female', 'nsnns,sns,sjdnns', 2147483647, 'rr21@gmail.com', 'B+', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000');
+(1, 'test', 20, 'female', 'nsnns,sns,sjdnns', 2147483647, 'rr21@gmail.com', 'B+', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000'),
+(2, 'test', 20, 'male', 'nsnns,sns,sjdnns', 2147483647, 'rr21@gmail.com', 'B+', '0000-00-00 00:00:00.000000', '0000-00-00 00:00:00.000000');
 
 -- --------------------------------------------------------
 
@@ -197,7 +222,14 @@ INSERT INTO `staffs` (`s_id`, `firstname`, `lastname`, `name`, `gender`, `dob`, 
 -- Indexes for table `appoint_list`
 --
 ALTER TABLE `appoint_list`
-  ADD PRIMARY KEY (`appoint_id`);
+  ADD PRIMARY KEY (`appoint_id`),
+  ADD KEY `patient_id` (`patient_id`);
+
+--
+-- Indexes for table `login`
+--
+ALTER TABLE `login`
+  ADD PRIMARY KEY (`uid`);
 
 --
 -- Indexes for table `m_stocks`
@@ -215,7 +247,8 @@ ALTER TABLE `patient_list`
 -- Indexes for table `ph_billing`
 --
 ALTER TABLE `ph_billing`
-  ADD PRIMARY KEY (`b_id`);
+  ADD PRIMARY KEY (`b_id`),
+  ADD KEY `patient_id` (`patient_id`);
 
 --
 -- Indexes for table `register_user`
@@ -237,13 +270,19 @@ ALTER TABLE `staffs`
 -- AUTO_INCREMENT for table `appoint_list`
 --
 ALTER TABLE `appoint_list`
-  MODIFY `appoint_id` int(40) NOT NULL AUTO_INCREMENT;
+  MODIFY `appoint_id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `login`
+--
+ALTER TABLE `login`
+  MODIFY `uid` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `m_stocks`
 --
 ALTER TABLE `m_stocks`
-  MODIFY `med_id` int(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `med_id` int(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `patient_list`
@@ -255,7 +294,7 @@ ALTER TABLE `patient_list`
 -- AUTO_INCREMENT for table `ph_billing`
 --
 ALTER TABLE `ph_billing`
-  MODIFY `b_id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `b_id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `register_user`
@@ -268,6 +307,22 @@ ALTER TABLE `register_user`
 --
 ALTER TABLE `staffs`
   MODIFY `s_id` int(40) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `appoint_list`
+--
+ALTER TABLE `appoint_list`
+  ADD CONSTRAINT `appoint_list_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patient_list` (`p_id`);
+
+--
+-- Constraints for table `ph_billing`
+--
+ALTER TABLE `ph_billing`
+  ADD CONSTRAINT `ph_billing_ibfk_1` FOREIGN KEY (`patient_id`) REFERENCES `patient_list` (`p_id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
