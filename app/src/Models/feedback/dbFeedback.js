@@ -1,16 +1,22 @@
 var conn = require("../../../../app/db/dbconn")
+var moment=require("moment")
 
 function addFeedback(input, callback) {
   var viewfeeddata = dbfeeddata(input);
-  conn.query("insert into feedback SET ?", viewfeeddata, (err, results) => {
-    if (err) {
-      console.log(err)
-    } else if (results) {
-      callback(null, results)
-    } else {
-      conn.end()
+  viewfeeddata.created_on =moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
+   conn.query(
+    "insert into feedback SET ?",
+    viewfeeddata,
+    (err, results) => {
+      if (err) {
+        console.log(err)
+      } else if (results) {
+        callback(null, results)
+      } else {
+        conn.end()
+      }
     }
-  })
+  )
 }
 
 function getFeedbacks(callback) {
@@ -65,13 +71,51 @@ function uifeeddata(uifeed){
   var dbfeed = {}
   dbfeed.name = uifeed.username
   dbfeed.comment = uifeed.comment
-  dbfeed.ratings = uifeed.ratings
+  dbfeed.ratings = uifeed.rating
 
   return dbfeed
+}
+
+
+
+function getPosFeed(callback) {
+  var feedbacks = []
+  conn.query("select * from feedback where rating>=5", (err, results) => {
+    if (err) {
+      console.log(err)
+    } else if (results) {
+      results.forEach((feedback) => {
+        var feed= uifeeddata(feedback)
+        feedbacks.push(feed)
+      })
+      callback(null, feedbacks)
+    } else {
+      conn.end()
+    }
+  })
+}
+
+function getNegFeed(callback) {
+  var feedbacks = []
+  conn.query("select * from feedback where rating<5", (err, results) => {
+    if (err) {
+      console.log(err)
+    } else if (results) {
+      results.forEach((feedback) => {
+        var feed= uifeeddata(feedback)
+        feedbacks.push(feed)
+      })
+      callback(null, feedbacks)
+    } else {
+      conn.end()
+    }
+  })
 }
 
 module.exports = {
   addFeedback,
   getFeedbacks,
   deleteFeedback,
+  getPosFeed,
+  getNegFeed
 }

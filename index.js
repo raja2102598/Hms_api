@@ -44,14 +44,13 @@ app.put("/phbill", bills.updatebill)
 
 app.delete("/phbill", bills.deletebill)
 
-app.get("/phbill/:id", bills.getBillById)
 
+
+app.get("/phbill/:id", bills.getBillById)
 
 app.get("/phbill/patient/:id", bills.getPatDetail)  //localhost:5000/phbill/patient/4
 
-
 app.get("/phbill/total/:date",bills.getTotalAmount)  //localhost:5000/phbill/total/2020-12-20
-
 
 app.get("/phbill/status/:type", bills.getBillsByStatus)  //localhost:5000/phbill/status/pending
 
@@ -63,6 +62,11 @@ app.get("/feedback", feed.getFeed)
 
 app.delete("/feedback", feed.deleteFeed)
 
+
+
+app.get("/feedback/positive", feed.getPositive)
+
+app.get("/feedback/negative", feed.getNegative)
 
 
 //login

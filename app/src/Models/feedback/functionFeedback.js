@@ -34,8 +34,31 @@ function deleteFeed(req, res) {
   })
 }
 
+
+function getPositive(req, res) {
+  dbconn.getPosFeed((err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      res.send(result)
+    }
+  })
+}
+
+function getNegative(req, res) {
+  dbconn.getNegFeed((err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      res.send(result)
+    }
+  })
+}
+
 module.exports = {
   addFeed,
   deleteFeed,
   getFeed,
+  getPositive,
+  getNegative,
 }
