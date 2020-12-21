@@ -1,7 +1,8 @@
 var conn = require("../../../../app/db/dbconn")
 
 function registerUser(input, callback) {
-  conn.query("insert into register_user SET ?", input, (err, results) => {
+  var viewregister = dbregdata(input);
+  conn.query("insert into register_user SET ?", viewregister, (err, results) => {
     if (err) {
       console.log(err)
     } else if (results) {
@@ -19,7 +20,8 @@ function getUsers(callback) {
       console.log(err)
     } else if (results) {
       results.forEach((user) => {
-        users.push(user)
+        var viewuireg= uiregdata(user)
+        users.push(viewuireg)
       })
       callback(null, users)
     } else {
@@ -29,12 +31,13 @@ function getUsers(callback) {
 }
 
 function updateUser(inUserData, callback) {
+  var upregister = uiregdata(inUserData)
   var user = {
     p_id: inUserData.p_id,
   }
   conn.query(
     "update register_user SET ? where ?",
-    [inUserData, user],
+    [upregister, user],
     function (e, results) {
       if (e) {
         console.log(e)
@@ -65,6 +68,35 @@ function deleteUser(inp, callback) {
     }
   )
 }
+function dbregdata(uireg){
+  var dbreg = {}
+
+  dbreg.p_id = uireg.Patient_id
+  dbreg.name = uireg.Name
+  dbreg.age = uireg.Age
+  dbreg.gender = uireg.Gender
+  dbreg.address = uireg.Address
+  dbreg.phone = uireg.Phone
+  dbreg.email = uireg.Email
+  dbreg.bloodgroup= uireg.Bloodgroup
+  dbreg.created_on = uireg.created_date
+  dbreg.modified_on = uireg.modified_date
+
+  return dbreg
+}
+
+function uiregdata (regdb){
+  var regui = {}
+  regui.Name = regdb.name
+  regui.age = regdb.age
+  regui.Gender = regdb.gender
+  regui.Bloodgroup = regdb.bloodgroup
+  regui.Address = regdb.address
+  regui.Phone = regdb.phone
+
+  return regui
+}
+
 
 module.exports = {
   registerUser,

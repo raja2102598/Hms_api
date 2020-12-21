@@ -43,10 +43,70 @@ function deleteApp(req, res) {
     }
   })
 }
+//select all appointments for a particular patient
+
+function getParticularApp(req, res) {
+  var id = req.params.id
+  dbconn.getAppointsForEach(id, (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      if (result.length > 0) {
+        console.log(result)
+        res.send(result)
+      } else {
+        res.send("No Data Found")
+      }
+    }
+  })
+}
+//select all appointments for a particular doctor
+
+function getParticularAppDoc(req, res) {
+  var id = req.params.id
+  dbconn.getAppointsForEachDoc(id, (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      if (result.length > 0) {
+        console.log(result)
+        res.send(result)
+      } else {
+        res.send("No Data Found")
+      }
+    }
+  })
+}
+
+//cancel a appointment for a particular patient with appoint id
+
+function cancelParticularApp(req, res) {
+  data = []
+  data.id = req.params.a_id
+  data.status = req.params.status
+  dbconn.cancelAppoint(data, (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      if (result.affectedRows > 0) {
+        console.log(result)
+        res.send("Success")
+      } else {
+        console.log(result)
+        res.send("No Data Found")
+      }
+    }
+  })
+}
+
+
 
 module.exports = {
   addApp,
   getApp,
   updateApp,
   deleteApp,
+  getParticularApp,
+  getParticularAppDoc,
+  cancelParticularApp,
 }

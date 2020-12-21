@@ -15,6 +15,7 @@ var staff = require("./app/src/Models/staff/functionstaff")
 
 
 app.use(body_parser.json())
+app.use(body_parser.urlencoded({ extended: true }))
 
 //Appointment
 app.post("/appointment", appoint.addApp)
@@ -24,6 +25,27 @@ app.get("/appointment", appoint.getApp)
 app.put("/appointment", appoint.updateApp)
 
 app.delete("/appointment", appoint.deleteApp)
+
+
+app.get("/appointment/p/:id/all", appoint.getParticularApp)   //get all appoints for a particular patient
+
+app.get("/appointment/d/:id/all", appoint.getParticularAppDoc)   //get all appoints for a particular doctor
+
+app.put("/appointment/status/:status/:a_id", appoint.cancelParticularApp)   //localhost:5000/appointment/status/(true)/(14)
+
+
+//Pharmacy billing
+app.post("/phbill", bills.addbill)
+
+app.get("/phbill", bills.getbills)
+
+app.put("/phbill", bills.updatebill)
+
+app.delete("/phbill", bills.deletebill)
+
+app.get("/phbill/:id", bills.getBillById)
+
+app.get("/phbill/patient/:id", bills.getPatDetail)  //localhost:5000/phbill/patient/4
 
 //Feedback
 app.post("/feedback", feed.addFeed)
@@ -57,14 +79,6 @@ app.put("/patient", patient.updatePatientData)
 
 app.delete("/patient", patient.deletePatientData)
 
-//Pharmacy billing
-app.post("/phbill", bills.addbill)
-
-app.get("/phbill", bills.getbills)
-
-app.put("/phbill", bills.updatebill)
-
-app.delete("/phbill", bills.deletebill)
 
 
 //register user

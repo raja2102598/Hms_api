@@ -1,6 +1,9 @@
 var conn = require("../../../../app/db/dbconn")
 
+var moment = require("moment")
+
 function addPhBill(input, callback) {
+  input.date = moment(Date.now()).format("YYYY-MM-DD HH:mm:ss")
   conn.query("insert into ph_billing SET ?", input, (err, results) => {
     if (err) {
       console.log(err)
@@ -32,6 +35,7 @@ function updatePhBill(inUserData, callback) {
   var user = {
     b_id: inUserData.b_id,
   }
+  inUserData.date = moment(Date.now()).format("YYYY-MM-DD HH:mm:ss")
   conn.query(
     "update ph_billing SET ? where ?",
     [inUserData, user],
@@ -62,9 +66,52 @@ function deletePhBill(inpBill, callback) {
   })
 }
 
+
+function getPhBillById(id, callback) {
+  var bills = []
+  conn.query(
+    "select * from ph_billing where patient_id=?",
+    id,
+    (err, results) => {
+      if (err) {
+        console.log(err)
+      } else if (results) {
+        results.forEach((bill) => {
+          bills.push(bill)
+        })
+        callback(null, bills)
+      } else {
+        conn.end()
+      }
+    }
+  )
+}
+
+function getPatientDetails(id, callback) {
+  var bills = []
+  conn.query(
+    "select p_name,p_age,p_height,p_weight,p_gender,bloodgroup,p_address,p_phone,invoice_no,amount,date,type,payment_type,pay_status from patient_list left join ph_billing on patient_list.p_id=ph_billing.patient_id where p_id=?",
+    id,
+    (err, results) => {
+      if (err) {
+        console.log(err)
+      } else if (results) {
+        results.forEach((bill) => {
+          bills.push(bill)
+        })
+        callback(null, bills)
+      } else {
+        conn.end()
+      }
+    }
+  )
+}
+
 module.exports = {
   addPhBill,
   updatePhBill,
   getPhBills,
   deletePhBill,
+  getPhBillById,
+  getPatientDetails,
 }
