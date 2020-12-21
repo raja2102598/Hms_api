@@ -107,6 +107,43 @@ function getPatientDetails(id, callback) {
   )
 }
 
+function getTotalAmountPerDay(date, callback) {
+  var dateModified='%'+date+'%'
+  // console.log(dateModified);
+  conn.query(
+    "select SUM(amount) as amount from ph_billing   where date like ?",
+    dateModified,
+    (err, results) => {
+      if (err) {
+        console.log(err)
+      } else if (results) {
+        callback(null, results)
+      } else {
+        conn.end()
+      }
+    }
+  )
+}
+
+function getPhBillByStatus(type, callback) {
+  var bills = []
+  conn.query(
+    "select * from ph_billing where pay_status=?",
+    type,
+    (err, results) => {
+      if (err) {
+        console.log(err)
+      } else if (results) {
+        results.forEach((bill) => {
+          bills.push(bill)
+        })
+        callback(null, bills)
+      } else {
+        conn.end()
+      }
+    }
+  )
+}
 module.exports = {
   addPhBill,
   updatePhBill,
@@ -114,4 +151,6 @@ module.exports = {
   deletePhBill,
   getPhBillById,
   getPatientDetails,
+  getTotalAmountPerDay,
+  getPhBillByStatus
 }

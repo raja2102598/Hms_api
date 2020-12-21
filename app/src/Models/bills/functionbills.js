@@ -69,6 +69,31 @@ function getPatDetail(req, res) {
   })
 }
 
+
+function getTotalAmount(req, res) {
+  var date = req.params.date
+  dbconn.getTotalAmountPerDay(date, (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      // console.log(result);
+      result.length > 0 ? res.send(result) : res.send("No Bills Found")
+    }
+  })
+}
+
+function getBillsByStatus(req, res) {
+  var type = req.params.type
+  dbconn.getPhBillByStatus(type, (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      result.length > 0 ? res.send(result) : res.send("No Match Found")
+    }
+  })
+}
+
+
 module.exports = {
   addbill,
   deletebill,
@@ -76,4 +101,6 @@ module.exports = {
   updatebill,
   getBillById,
   getPatDetail,
+  getTotalAmount,
+  getBillsByStatus
 }

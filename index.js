@@ -27,6 +27,7 @@ app.put("/appointment", appoint.updateApp)
 app.delete("/appointment", appoint.deleteApp)
 
 
+
 app.get("/appointment/p/:id/all", appoint.getParticularApp)   //get all appoints for a particular patient
 
 app.get("/appointment/d/:id/all", appoint.getParticularAppDoc)   //get all appoints for a particular doctor
@@ -45,7 +46,15 @@ app.delete("/phbill", bills.deletebill)
 
 app.get("/phbill/:id", bills.getBillById)
 
+
 app.get("/phbill/patient/:id", bills.getPatDetail)  //localhost:5000/phbill/patient/4
+
+
+app.get("/phbill/total/:date",bills.getTotalAmount)  //localhost:5000/phbill/total/2020-12-20
+
+
+app.get("/phbill/status/:type", bills.getBillsByStatus)  //localhost:5000/phbill/status/pending
+
 
 //Feedback
 app.post("/feedback", feed.addFeed)
@@ -53,6 +62,8 @@ app.post("/feedback", feed.addFeed)
 app.get("/feedback", feed.getFeed)
 
 app.delete("/feedback", feed.deleteFeed)
+
+
 
 //login
 app.post("/login", login.addLoginData)
@@ -78,6 +89,9 @@ app.get("/patient", patient.getPatientsData)
 app.put("/patient", patient.updatePatientData)
 
 app.delete("/patient", patient.deletePatientData)
+
+
+// app.get("/phbill/patient/City/:cityName")\
 
 
 
