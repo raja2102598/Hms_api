@@ -58,6 +58,16 @@ function getBillById(req, res) {
   })
 }
 
+function getPatDetail(req, res) {
+  var id = req.params.id
+  dbconn.getPatientDetails(id, (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      result.length > 0 ? res.send(result) : res.send("No Match Found")
+    }
+  })
+}
 
 module.exports = {
   addbill,
@@ -65,4 +75,5 @@ module.exports = {
   getbills,
   updatebill,
   getBillById,
+  getPatDetail,
 }

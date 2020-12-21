@@ -87,10 +87,31 @@ function getPhBillById(id, callback) {
   )
 }
 
+function getPatientDetails(id, callback) {
+  var bills = []
+  conn.query(
+    "select p_name,p_age,p_height,p_weight,p_gender,bloodgroup,p_address,p_phone,invoice_no,amount,date,type,payment_type,pay_status from patient_list left join ph_billing on patient_list.p_id=ph_billing.patient_id where p_id=?",
+    id,
+    (err, results) => {
+      if (err) {
+        console.log(err)
+      } else if (results) {
+        results.forEach((bill) => {
+          bills.push(bill)
+        })
+        callback(null, bills)
+      } else {
+        conn.end()
+      }
+    }
+  )
+}
+
 module.exports = {
   addPhBill,
   updatePhBill,
   getPhBills,
   deletePhBill,
   getPhBillById,
+  getPatientDetails,
 }

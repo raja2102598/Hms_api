@@ -45,6 +45,8 @@ app.delete("/phbill", bills.deletebill)
 
 app.get("/phbill/:id", bills.getBillById)
 
+app.get("/phbill/patient/:id", bills.getPatDetail)  //localhost:5000/phbill/patient/4
+
 //Feedback
 app.post("/feedback", feed.addFeed)
 
