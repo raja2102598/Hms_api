@@ -76,6 +76,10 @@ app.put("/login", login.updateLoginData)
 
 app.delete("/login", login.deleteLoginData)
 
+
+app.post("/user/login", login.userLogin)
+
+
 //medical stocks
 app.post("/stock", stock.addStock)
 

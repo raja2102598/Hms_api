@@ -36,8 +36,22 @@ function deleteLoginData(req, res) {
   })
 }
 
+
+function userLogin(req, res) {
+  var user = req.body
+  dbconn.userLoginDb(user, (err, result) => {
+    if (err) {
+      console.log(err)
+    } else {
+      console.log(result)
+      res.send(result)
+    }
+  })
+}
+
 module.exports = {
   addLoginData,
   deleteLoginData,
   updateLoginData,
+  userLogin,
 }
