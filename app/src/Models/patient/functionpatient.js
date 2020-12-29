@@ -46,9 +46,22 @@ function deletePatientData(req, res) {
   })
 }
 
+function getindividualpatient(req,res){
+  var id=req.params.id
+  dbconn.particularpatientdata(id,function(err,result){
+    if(err){
+      console,log(err);
+    }
+    else{
+      res.send(result);
+    }
+  })
+}
+
 module.exports = {
   addPatientData,
   deletePatientData,
   updatePatientData,
   getPatientsData,
+  getindividualpatient,
 }

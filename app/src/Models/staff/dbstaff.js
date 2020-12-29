@@ -96,10 +96,53 @@ function uistaffdata (staffdb){
  return staffui 
 }
 
+function particularstaffdata(inpstaff, callback) {
+  var staffs = []
+  conn.query(
+    "select * from staffs where staff_type=?",
+    inpstaff,
+    function (error, result) {
+      if (error) {
+        console.log(error)
+      } else if (result) {
+        result.forEach((staff) => {
+          var staffdata = uistaffdata(staff)
+          staffs.push(staffdata)
+        })
+        callback(null, staffs)
+      } else {
+        conn.end()
+      }
+    }
+  )
+}
+
+function individualstaffdata(inpstaff, callback) {
+  var staffs = []
+  conn.query(
+    "select * from staffs where s_id=?",
+    inpstaff,
+    function (error, result) {
+      if (error) {
+        console.log(error)
+      } else if (result) {
+        result.forEach((staff) => {
+          var staffdata = uistaffdata(staff)
+          staffs.push(staffdata)
+        })
+        callback(null, staffs)
+      } else {
+        conn.end()
+      }
+    }
+  )
+}
 
 module.exports = {
   addStaff,
   updateStaff,
   getStaffs,
   deleteStaff,
+  particularstaffdata,
+  individualstaffdata,
 }

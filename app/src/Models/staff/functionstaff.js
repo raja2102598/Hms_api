@@ -46,9 +46,37 @@ function deletestaffdata(req, res) {
   })
 }
 
+//select particular staff
+
+function getParticularstaff(req,res){
+  var type=req.params.type
+  dbconn.particularstaffdata(type,function(err,result){
+    if(err){
+      console,log(err);
+    }
+    else{
+      res.send(result);
+    }
+  })
+}
+
+function getindividualstaff(req,res){
+  var id=req.params.id
+  dbconn.individualstaffdata(id,function(err,result){
+    if(err){
+      console,log(err);
+    }
+    else{
+      res.send(result);
+    }
+  })
+}
+
 module.exports = {
   addstaffdata,
   updatestaffdata,
   deletestaffdata,
   getstaffdata,
+  getParticularstaff,
+  getindividualstaff,
 }

@@ -102,9 +102,29 @@ function uipatientdata(patientdb){
   return patientui
 }
 
+function particularpatientdata(inppatient,callback){
+  var patients = [];
+  conn.query("select * from patient_list where p_id=?",inppatient,function(error,result){
+    if(error){
+      console.log(error);
+    }
+    else if(result){
+      result.forEach((patient)=>{
+        var patientdata = uipatientdata(patient);
+        patients.push(patientdata)
+      })
+      callback(null,patients);
+    }
+    else{
+      conn.end();
+    }
+  })
+}
+
 module.exports = {
   addpatient,
   updatePatient,
   getPatients,
   deletePatient,
+  particularpatientdata,
 }

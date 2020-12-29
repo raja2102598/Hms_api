@@ -46,9 +46,22 @@ function deleteuserdata(req, res) {
   })
 }
 
+function getindividualuser(req,res){
+  var address=req.params.address
+  dbconn.particularuserdata(address,function(err,result){
+    if(err){
+      console,log(err);
+    }
+    else{
+      res.send(result);
+    }
+  })
+}
+
 module.exports = {
   reguser,
   updateuserdata,
   deleteuserdata,
   getusersdata,
+  getindividualuser,
 }

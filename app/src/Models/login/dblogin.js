@@ -95,10 +95,11 @@ function userLoginDb(input, callback) {
         console.log(err)
       } else if (res) {
         // var pwdEnc = {}
-        // console.log(res);
+        console.log(res)
         // console.log(res);
         var pwd={}
         pwd.iv=JSON.stringify(res[0].iv)
+        // console.log(pwd.iv);
         pwd.iv=pwd.iv.replace(/^"(.*)"$/, "$1")
         pwd.content=JSON.stringify(res[0].pwd)
         pwd.content=pwd.content.replace(/^"(.*)"$/, "$1")

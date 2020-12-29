@@ -97,10 +97,30 @@ function uiregdata (regdb){
   return regui
 }
 
+function particularuserdata(inpuser,callback){
+  var users = [];
+  conn.query("select * from register_user where address=?",inpuser,function(error,result){
+    if(error){
+      console.log(error);
+    }
+    else if(result){
+      result.forEach((user)=>{
+        var userdata = uiregdata(user);
+        users.push(userdata)
+      })
+      callback(null,users);
+    }
+    else{
+      conn.end();
+    }
+  })
+}
+
 
 module.exports = {
   registerUser,
   getUsers,
   updateUser,
   deleteUser,
+  particularuserdata,
 }

@@ -1,6 +1,65 @@
 var express = require("express")
 var body_parser = require("body-parser")
+
+var md5 = require("md5")
+
+console.log(md5("Hello"))
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 var app = express()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -89,6 +148,8 @@ app.put("/stock", stock.updateStock)
 
 app.delete("/stock", stock.deleteStock)
 
+app.get("/stock/select/:category", stock.getParticularmedicine)
+
 //Patient
 app.post("/patient", patient.addPatientData)
 
@@ -98,10 +159,7 @@ app.put("/patient", patient.updatePatientData)
 
 app.delete("/patient", patient.deletePatientData)
 
-
-// app.get("/phbill/patient/City/:cityName")\
-
-
+app.get("/patient/select/:id", patient.getindividualpatient)
 
 //register user
 app.post("/register", reg.reguser)
@@ -112,6 +170,8 @@ app.put("/register", reg.updateuserdata)
 
 app.delete("/register", reg.deleteuserdata)
 
+app.get("/register/select/:address", reg.getindividualuser)
+
 //Staffs
 app.post("/staff", staff.addstaffdata)
 
@@ -121,7 +181,11 @@ app.put("/staff", staff.updatestaffdata)
 
 app.delete("/staff", staff.deletestaffdata)
 
+app.get("/staff/select/:type", staff.getParticularstaff)
+
+app.get("/staff/select/:id", staff.getindividualstaff)
+
 
 app.listen(5000,()=>{
-  console.log("Server Started")
+  // console.log("Server Started")
 })

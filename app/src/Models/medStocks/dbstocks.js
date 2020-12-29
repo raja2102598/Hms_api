@@ -91,9 +91,30 @@ function uistockdata(stockdata){
   return stockui
 }
 
+function particularmedicinedata(inpstock,callback){
+  var stocks = [];
+  conn.query("select * from m_stocks where category_id=?",inpstock,function(error,results){
+    if(error){
+      console.log(error);
+    }
+    else if(results){
+      results.forEach((stock)=>{
+        var stocksdata = uistockdata(stock);
+        stocks.push(stocksdata)
+      })
+      callback(null,stocks);
+    }
+    else{
+      conn.end();
+    }
+  })
+}
+
+
 module.exports = {
   addMedStock,
   updateMedStock,
   deleteMedStock,
   getMedStocks,
+  particularmedicinedata,
 }

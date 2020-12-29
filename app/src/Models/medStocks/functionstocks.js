@@ -46,9 +46,22 @@ function deleteStock(req, res) {
   })
 }
 
+function getParticularmedicine(req,res){
+  var category=req.params.category
+  dbconn.particularmedicinedata(category,function(err,result){
+    if(err){
+      console,log(err);
+    }
+    else{
+      res.send(result);
+    }
+  })
+}
+
 module.exports = {
   addStock,
   getStocks,
   updateStock,
   deleteStock,
+  getParticularmedicine,
 }
